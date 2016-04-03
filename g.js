@@ -167,13 +167,14 @@ var g = {
 			b.c = b.c || {};
 			b.c.b = b.c.b || '#000'; b.c.ba = b.c.ba || b.c.b; b.c.bd = b.c.b;
 			b.c.t = b.c.t || '#fff'; b.c.ta = b.c.ta || b.c.t; b.c.td = b.c.t;
+			b.cursor = true;
 			b.in = b.in || function () {};
 			b.out = b.out || function () {};
 			b.over = false;
 			b.wp = b.wp || 0.6;
 			b.z = b.z || 0;
 
-			b.action = function () { if (b.detect ()) { b.a (); }; };
+			b.action = function () { if (b.detect ()) { b.a (); } else { if (!b.cursor) { b.cursor = true; g.c.style.cursor = 'default'; }; }; };
 
 			b.active = function () {
 				if (b.detect ()) {
@@ -182,7 +183,7 @@ var g = {
 						if (b.c.ba) b.c.b = b.c.ba;
 						if (b.c.ta) b.c.t = b.c.ta;
 						if (b.c.ba || b.c.ta) b.s ();
-						g.c.style.cursor = 'pointer';
+						if (b.cursor) g.c.style.cursor = 'pointer';
 					};
 				}
 				else {
@@ -191,7 +192,7 @@ var g = {
 						if (b.c.ba) b.c.b = b.c.bd;
 						if (b.c.ta) b.c.t = b.c.td;
 						if (b.c.ba || b.c.ta) b.s ();
-						g.c.style.cursor = 'default'; 
+						if (b.cursor) g.c.style.cursor = 'default';
 					};
 				}};
 
@@ -266,11 +267,15 @@ var g = {
 			h.x = h.x || 0.3; h.y = h.y || 0.9; h.yin = h.y - 0.02;
 			h.z = h.z || 4;
 
+			h.a = function () {
+				this.cursor = false;
+				g.c.style.cursor = 'url(' + g.i.hammer_cursor.src + ') 0 0, auto';
+			};
 			h.in = function () { this.i = g.i.hammer_up; this.y -= 0.01; };
 			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a ('data/down.ogg'); };
 
 			h.s = function () {
-				g.g.b = { a: function () { g.w.l = 'hammer'; }, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
+				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
 				g.c.d = true;
 			};
 			h.u = function () { switch (g.e.type) {
@@ -339,7 +344,7 @@ var g = {
 
 g.i.l = {
 	dock: 'data/dock.svg',
-	hammer: 'data/hammer.svg', hammer_up: 'data/hammer_up.svg',
+	hammer: 'data/hammer.svg', hammer_cursor: 'data/hammer_cursor.png', hammer_up: 'data/hammer_up.svg',
 	home: 'data/home.png',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	snow: 'data/snow.png'
