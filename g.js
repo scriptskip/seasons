@@ -1,5 +1,5 @@
 var g = {
-	a: function (a, b, c) { var a = new Audio (a); a.loop = (c); a.volume = b || 1; a.play (); return a; },
+	a: function (a, b, c) { var a = new Audio (a); a.loop = (c); a.volume = b || 0.5; a.play (); return a; },
 
 	c: function () {
 		var c = g.w.d.createElement ('canvas');
@@ -254,12 +254,12 @@ var g = {
 				case 'mousemove': d.ah (); break;
 				case 'resize': d.s (); break;
 			};};
-			g.g.h = {};
+			g.g.hammer = {}; g.g.home = {};
 			d.s ();
 			g.o.push (d);
 		},
 
-		set h (h) {
+		set hammer (h) {
 			h.id = 'hammer';
 
 			h.hk = 0.9; h.w = h.w || 0.05;
@@ -268,11 +268,35 @@ var g = {
 			h.z = h.z || 4;
 
 			h.a = function () {
-				this.cursor = false;
-				g.c.style.cursor = 'url(' + g.i.hammer_cursor.src + ') 0 0, auto';
+				g.w.l = 'hammer';
 			};
 			h.in = function () { this.i = g.i.hammer_up; this.y -= 0.01; };
 			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a ('data/down.ogg'); };
+
+			h.s = function () {
+				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
+				g.c.d = true;
+			};
+			h.u = function () { switch (g.e.type) {
+				case 'resize': h.s (); break;
+			};};
+			h.s ();
+			g.o.push (h);
+		},
+
+		set home (h) {
+			h.id = 'home';
+
+			h.hk = 1.8; h.w = h.w || 0.04;
+			h.i = g.i.home;
+			h.x = h.x || 0.35; h.y = h.y || 0.87; h.yin = h.y - 0.02;
+			h.z = h.z || 4;
+
+			h.a = function () {
+				g.w.l = 'hammer';
+			};
+			h.in = function () { this.i = g.i.home; this.y -= 0.01; };
+			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a ('data/down.ogg'); };
 
 			h.s = function () {
 				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
@@ -345,7 +369,7 @@ var g = {
 g.i.l = {
 	dock: 'data/dock.svg',
 	hammer: 'data/hammer.svg', hammer_cursor: 'data/hammer_cursor.png', hammer_up: 'data/hammer_up.svg',
-	home: 'data/home.png',
+	home: 'data/home.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	snow: 'data/snow.png'
 };
