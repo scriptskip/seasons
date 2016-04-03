@@ -10,6 +10,7 @@ var g = {
 
 			c.a = function () { c.h (g.w.h); c.w (g.w.w); g.c.d = true; };
 			c.b = function (c) { g.c.style.background = c; };
+			c.bg = function (i) { g.c.style.background = 'transparent'; g.w.d.b.style.background = 'url(' + i.src + ')'; };
 			c.fs = function (o) {
 				var fs = o.h || c.h () * 0.5;
 				g.c.c.font = fs + 'px ' + c.ff;
@@ -266,7 +267,7 @@ var g = {
 			h.z = h.z || 4;
 
 			h.in = function () { this.i = g.i.hammer_up; this.y -= 0.01; };
-			h.out = function () { this.i = g.i.hammer; this.y += 0.01; };
+			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a ('data/down.ogg'); };
 
 			h.s = function () {
 				g.g.b = { a: function () { g.w.l = 'hammer'; }, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
@@ -339,7 +340,9 @@ var g = {
 g.i.l = {
 	dock: 'data/dock.svg',
 	hammer: 'data/hammer.svg', hammer_up: 'data/hammer_up.svg',
-	home: 'data/home.png'
+	home: 'data/home.png',
+	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
+	snow: 'data/snow.png'
 };
 
 g.run = function () {
@@ -348,7 +351,7 @@ g.run = function () {
 
 g.lvl.begin = function () {
 	g.wipe ();
-	g.c.b ('#bbb');
+	g.c.bg (g.i.grass);
 	g.w.t = 0;
 	g.g.d = {};
 	g.a ('data/tk.ogg');

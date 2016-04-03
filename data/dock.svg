@@ -24,12 +24,45 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs4140" />
+     id="defs4140">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter4248">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood4250" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite4252" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="3"
+         result="blur"
+         id="feGaussianBlur4254" />
+      <feOffset
+         dx="0"
+         dy="6"
+         result="offset"
+         id="feOffset4256" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite4258" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -48,15 +81,16 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.47830149"
-     inkscape:cx="722.86315"
-     inkscape:cy="551.59056"
+     inkscape:cx="631.8762"
+     inkscape:cy="582.98792"
      inkscape:window-x="-4"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg4136" />
   <g
      id="g4186"
-     transform="translate(-18.956905,-462.35358)">
+     transform="translate(-18.956905,-462.35358)"
+     style="filter:url(#filter4248)">
     <path
        style="fill:#f8c191"
        d="M 58.954555,774.56331 C -32.241101,743.92749 78.235953,657.18106 88.026784,599.25 110.27116,554.16092 132.45832,509.04365 154.68688,463.94677 c 622.57553,0.90038 1245.15922,1.30941 1867.72572,3.22449 53.355,90.36707 106.6926,180.74435 160.0501,271.10999 -31.2133,15.26025 -61.1899,35.77266 -97.6282,28.84327 -674.0629,3.005 -1348.14687,6.76097 -2022.199497,8.59753 l -3.680448,-1.15874 z"
