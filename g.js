@@ -274,15 +274,15 @@ var g = {
 				if (b.drag > 2) {
 					b.drag = 0;
 					g.c.wipe ({ id: this.id });
+					if (!b.docked()) { g.a.p (b.a1); };
 					b.b ();
-					if (!b.docked()) g.a.p (b.a1);
 				};
 			};
 			b.move = function () {
 				if (b.drag > 0) { b.drag++;
 					b.x = g.e.x / g.c.W; b.y = g.e.y / g.c.H;
-					var opt = 1000 / (g.w.t / b.drago) >> 0;
-					if (opt < 995) { b.drag = 3; b.drago = g.w.t; b.s (); };
+					var opt = 100 / (g.w.t / b.drago) >> 0;
+					if (opt < 100) { b.drag = 3; b.drago = g.w.t; b.s (); };
 				};
 			};
 			b.in = function () {
@@ -428,9 +428,11 @@ g.lvl.begin = function () {
 	g.wipe ();
 	g.c.bg (g.i.grass);
 	g.w.t = 0;
-	g.g.d = {};
-	g.g.build = { a1: g.a.tock, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, i1: g.i.home, w: 0.05, x: 0.4, y: 0.85 };
+	g.g.d = { z: 0 };
+	g.g.build = { a1: g.a.tock, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9, z: 2 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85, z: 2 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil', i: g.i.soil, i1: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
+
 	g.a.p (g.a.begin, 1);
 };
 
