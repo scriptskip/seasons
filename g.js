@@ -166,18 +166,8 @@ var g = {
 		set area (a) {
 			a.id = a.id || 'area' + g.o.length;
 
-			a.hk = 1.4; a.w = 0.1;
-			a.i = g.i.soil;
-			a.x = 0.5; a.y = 0.5;
-
-			a.s = function () {
-				g.g.b = { a: a.a, h: a.h, hk: a.hk, i: a.i, id: a.id, in: a.in, out: a.out, w: a.w, wk: a.wk, x: a.x, y: a.y, z: a.z };
-			};
-
 			a.u = function () { switch (g.e.type) {
-				case 'resize': a.s ();
 			};};
-			a.s ();
 			g.o.push (a);
 		},
 
@@ -305,17 +295,17 @@ var g = {
 		},
 
 		set d (d) {
-			d.id = 'dock';
+			d.id = d.id || 'dock';
 
 			d.ahy = 0.7 * g.c.H;
 			d.hide = true;
-			d.hk = 0.1; d.w = d.w || g.op.dock.w;
-			d.i = g.i.dock;
-			d.x = d.x || 0.5; d.y = d.y || g.op.dock.y;
+			d.hk = d.hk || g.op[d.id].hk; d.w = d.w || g.op[d.id].w;
+			d.i = d.i || g.i[d.id];
+			d.x = d.x || g.op[d.id].x; d.y = d.y || g.op[d.id].y;
 			d.z = d.z || 0;
 
 			d.ah = function () {
-				if (g.op.dock.auto) {
+				if (g.op[d.id].auto) {
 					if (g.e.y > d.ahy) { if (d.hide) { d.hide = false; d.s (); };
 					} else { if (!d.hide) { d.hide = true; g.c.wipe ({id: d.id}); g.c.d = true; };};
 				 };
@@ -324,7 +314,7 @@ var g = {
 			d.s = function () {
 				g.c.wipe ({id: d.id});
 				var o = g.c.hwxy (d);
-				g.op.dock.h = o.h;
+				g.op[d.id].h = o.h;
 				g.d ({ h: o.h, i: d.i, id: d.id, w: o.w, x: o.x, y: o.y, z: d.z });
 				g.c.d = true;
 			};
@@ -347,8 +337,9 @@ var g = {
 	o: [],
 
 	op: {
-		dock: { auto: false, w: 0.55, x: 0.5, y: 0.9 },
-		fps: true
+		dock: { auto: false, hk: 0.1, w: 0.55, x: 0.5, y: 0.9 },
+		fps: true,
+		table: { auto: false, hk: 1, w: 0.2, x: 0.1, y: 0.8 },
 	},
 
 	r: function (a, b, c) {
@@ -409,7 +400,8 @@ g.i.l = {
 	home: 'data/home.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	snow: 'data/snow.png',
-	soil: 'data/soil.svg'
+	soil: 'data/soil.svg',
+	table: 'data/table.svg'
 };
 
 g.run = function () {
@@ -420,7 +412,8 @@ g.lvl.begin = function () {
 	g.wipe ();
 	g.c.bg (g.i.grass);
 	g.w.t = 0;
-	g.g.d = { z: 0 };
+	g.g.d = { id: 'dock', z: 0 };
+	g.g.d = { i: g.i.table, id: 'table' };
 	g.g.build = { a1: g.a.shih, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
 	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85 };
 	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
