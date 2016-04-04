@@ -1,5 +1,8 @@
 var g = {
-	a: function (a, b, c) { var a = new Audio (a); a.loop = (c); a.volume = b || 0.5; a.play (); return a; },
+	a: {
+		set l (l) { for (var id in l) { var a = new Audio (l[id]); g.a[id] = a; }; },
+		p: function (a, b, c) { if (typeof (a) == 'string') a = new Audio (a); a.loop = (c); a.volume = b || 0.5; a.play (); return a; }
+	},
 
 	c: function () {
 		var c = g.w.d.createElement ('canvas');
@@ -12,11 +15,11 @@ var g = {
 			c.b = function (c) { g.c.style.background = c; };
 			c.bg = function (i) { g.c.style.background = 'transparent'; g.w.d.b.style.background = 'url(' + i.src + ')'; };
 			c.fs = function (o) {
-				var fs = o.h || c.h () * 0.5;
+				var fs = o.h || c.H * 0.5;
 				g.c.c.font = fs + 'px ' + c.ff;
 
 				var w = g.c.c.measureText (o.t).width;
-				var W = o.w * c.w ();
+				var W = o.w * c.W;
 				while (Math.abs (w - W) > 5) {
 					fs = (w < W) ? fs * 1.6 : fs * 0.8;
 					g.c.c.font = fs + 'px ' + c.ff;
@@ -24,8 +27,8 @@ var g = {
 				};
 				return fs;
 			};
-			c.h = function (h) { if (h) c.height = h; else return c.height; };
-			c.hk = function (o) { return (o.hk) ? (o.hk * o.w * g.c.w ()) / g.c.h () : o.h };
+			c.h = function (h) { c.H = h; c.height = c.H; };
+			c.hk = function (o) { return (o.hk) ? (o.hk * o.w * g.c.W) / g.c.H : o.h };
 			c.hwxy = function (o, x, y) {
 				var r = {}; x = x || 0.5; y = y || 0.5;
 				o.h = g.c.hk (o);
@@ -36,8 +39,8 @@ var g = {
 				r.w = o.w;
 				return r;
 			};
-			c.w = function (w) { if (w) c.width = w; else return c.width; };
-			c.wk = function (o) { return (o.wk) ? (o.wk * o.h * g.c.h ()) / g.c.w () : o.w };
+			c.w = function (w) { c.W = w; c.width = c.W; };
+			c.wk = function (o) { return (o.wk) ? (o.wk * o.h * g.c.H) / g.c.W : o.w };
 			c.wipe = function (o) {
 				var s = [];
 				for (var i = g.s.length; i--;) {
@@ -72,23 +75,23 @@ var g = {
 		};
 
 		if (g.c.d) {
-			g.c.c.clearRect (0, 0, g.c.w (), g.c.h ());
+			g.c.c.clearRect (0, 0, g.c.W, g.c.H);
 			for (var z = 0; z <= g.c.z; z++) {
 				for (var id = g.s.length; id--;) {
 					var c = g.s[id];
 					if (c.z == z) {
-						var a = Math.floor (c.a * g.c.w ());
-						var b = Math.floor (c.b * g.c.h ());
+						var a = c.a * g.c.W >> 0;
+						var b = c.b * g.c.H>> 0;
 						var cos = c.cos || 2 * Math.PI;
-						var h = Math.floor (c.h * g.c.h ());
-						var r = Math.floor (c.r * Math.min (g.c.h (), g.c.w ()));
+						var h = c.h * g.c.H >> 0;
+						var r = c.r * Math.min (g.c.H, g.c.W) >> 0;
 						var sin = c.sin || 0;
-						var w = Math.floor (c.w * g.c.w ());
-						var x = Math.floor (c.x * g.c.w ());
-						var y = Math.floor (c.y * g.c.h ());
+						var w = c.w * g.c.W >> 0;
+						var x = c.x * g.c.W >> 0;
+						var y = c.y * g.c.H >> 0;
 
 						if (c.f) g.c.c.fillStyle = c.f;
-						if (c.lw) g.c.c.lineWidth = Math.floor (c.lw * Math.min (g.c.h (), g.c.w ()));
+						if (c.lw) g.c.c.lineWidth = Math.floor (c.lw * Math.min (g.c.H, g.c.W));
 						if (c.s) g.c.c.strokeStyle = c.s;
 
 						switch (c.type) {
@@ -198,7 +201,7 @@ var g = {
 
 			b.detect = function () {
 				var x = g.e.x || g.e.clientX; var y = g.e.y || g.e.clientY;
-					x = x / g.c.w () + 0.5 * b.w; y = y / g.c.h () + 0.5 * b.h;
+					x = x / g.c.W + 0.5 * b.w; y = y / g.c.H + 0.5 * b.h;
 				return ((x >= b.x) && (x <= b.x + b.w) && (y >= b.y) && (y <= b.y + b.h));
 			};
 
@@ -229,7 +232,7 @@ var g = {
 		set d (d) {
 			d.id = 'dock';
 
-			d.ahy = 0.7 * g.c.h ();
+			d.ahy = 0.7 * g.c.H;
 			d.hide = true;
 			d.hk = 0.1; d.w = d.w || g.op.dock.w;
 			d.i = g.i.dock;
@@ -271,7 +274,7 @@ var g = {
 				g.w.l = 'hammer';
 			};
 			h.in = function () { this.i = g.i.hammer_up; this.y -= 0.01; };
-			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a ('data/down.ogg'); };
+			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a.p (g.a.tock); };
 
 			h.s = function () {
 				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
@@ -293,10 +296,10 @@ var g = {
 			h.z = h.z || 4;
 
 			h.a = function () {
-				g.w.l = 'hammer';
+				g.w.l = g.r (1, 2, true);
 			};
 			h.in = function () { this.i = g.i.home; this.y -= 0.01; };
-			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a ('data/down.ogg'); };
+			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a.p (g.a.tock); };
 
 			h.s = function () {
 				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
@@ -327,7 +330,7 @@ var g = {
 		if (a) {
 			if (b) {
 				if (typeof (b) == 'number') {
-					r = (c != true) ? Math.random () * (b - a) + a : Math.floor (Math.random () * (b - a + 1)) + a;
+					r = (c != true) ? Math.random () * (b - a) + a : (Math.random () * (b - a + 1) + a) >> 0;
 				};
 			};
 		};
@@ -366,6 +369,12 @@ var g = {
 	u: function () { g.w.u (); g.c.u (); for (var i = g.o.length; i--;) if (g.o[i]) g.o[i].u (); }
 };
 
+g.a.l = {
+	begin: 'data/begin.ogg',
+	tk: 'data/tk.ogg',
+	tock: 'data/tock.ogg'
+};
+
 g.i.l = {
 	dock: 'data/dock.svg',
 	hammer: 'data/hammer.svg', hammer_cursor: 'data/hammer_cursor.png', hammer_up: 'data/hammer_up.svg',
@@ -383,7 +392,7 @@ g.lvl.begin = function () {
 	g.c.bg (g.i.grass);
 	g.w.t = 0;
 	g.g.d = {};
-	g.a ('data/tk.ogg');
+	g.a.p (g.a.begin, 1);
 };
 
 g.lvl.option = function () {
