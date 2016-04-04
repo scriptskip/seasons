@@ -166,12 +166,16 @@ var g = {
 		set area (a) {
 			a.id = a.id || 'area' + g.o.length;
 
-			a.s = function () {
+			a.hk = 1.4; a.w = 0.1;
+			a.i = g.i.soil;
+			a.x = 0.5; a.y = 0.5;
 
+			a.s = function () {
+				g.g.b = { a: a.a, h: a.h, hk: a.hk, i: a.i, id: a.id, in: a.in, out: a.out, w: a.w, wk: a.wk, x: a.x, y: a.y, z: a.z };
 			};
 
 			a.u = function () { switch (g.e.type) {
-
+				case 'resize': a.s ();
 			};};
 			a.s ();
 			g.o.push (a);
@@ -308,24 +312,50 @@ var g = {
 		set home (h) {
 			h.id = 'home';
 
+			h.drag = 0;
 			h.hk = 1.8; h.w = h.w || 0.04;
 			h.i = g.i.home;
 			h.x = h.x || 0.35; h.y = h.y || 0.87; h.yin = h.y - 0.02;
 			h.z = h.z || 4;
 
 			h.a = function () {
-				g.w.l = g.r (1, 2, true);
+				g.w.wipe ({ id: this.id });
+				g.c.wipe ({ id: this.id });
+				h.drag = 1;
+				g.w.l = h.drag;
+			};
+			h.drop = function () {
+				if (h.drag > 2) {
+					h.drag = 0;
+					g.c.wipe ({ id: this.id });
+					h.b ();
+				};
+			};
+			h.move = function () {
+				if (h.drag > 0) { h.drag++;
+					h.x = g.e.x / g.c.W; h.y = g.e.y / g.c.H;
+					h.s ();
+				};
 			};
 			h.in = function () { this.i = g.i.home; this.y -= 0.01; };
 			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a.p (g.a.tock); };
 
+			h.b = function () {
+				g.g.b = { a: h.a, h: h.h, hk: h.hk, i: h.i, id: 'button' + h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
+			};
+
 			h.s = function () {
-				g.g.b = { a: h.a, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
+				g.c.wipe ({ id: h.id });
+				var o = g.c.hwxy (h);
+				g.d ({ h: o.h, i: h.i, id: h.id, w: o.w, x: o.x, y: o.y, z: h.z });
+				g.c.d = true;
 			};
 			h.u = function () { switch (g.e.type) {
+				case 'click': h.drop (); break;
+				case 'mousemove': h.move (); break;
 				case 'resize': h.s (); break;
 			};};
-			h.s ();
+			h.b ();
 			g.o.push (h);
 		}
 	},
@@ -338,7 +368,7 @@ var g = {
 	o: [],
 
 	op: {
-		dock: { auto: false, w: 0.5, y: 0.9 },
+		dock: { auto: false, w: 0.55, y: 0.9 },
 		fps: true
 	},
 
@@ -397,7 +427,8 @@ g.i.l = {
 	hammer: 'data/hammer.svg', hammer_cursor: 'data/hammer_cursor.png', hammer_up: 'data/hammer_up.svg',
 	home: 'data/home.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
-	snow: 'data/snow.png'
+	snow: 'data/snow.png',
+	soil: 'data/soil.svg'
 };
 
 g.run = function () {
