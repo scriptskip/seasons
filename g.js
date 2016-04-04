@@ -429,9 +429,11 @@ g.lvl.begin = function () {
 	g.c.bg (g.i.grass);
 	g.w.t = 0;
 	g.g.d = { z: 0 };
-	g.g.build = { a1: g.a.tock, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9, z: 2 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85, z: 2 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil', i: g.i.soil, i1: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
+	g.g.build = { a1: g.a.tock, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.85 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil3', i: g.i.soil, w: 0.04, x: 0.7, y: 0.85 };
 
 	g.a.p (g.a.begin, 1);
 };
