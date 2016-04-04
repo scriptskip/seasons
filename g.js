@@ -272,6 +272,7 @@ var g = {
 			d.s = function () {
 				g.c.wipe ({id: d.id});
 				var o = g.c.hwxy (d);
+				g.op.dock.h = o.h;
 				g.d ({ h: o.h, i: d.i, id: d.id, w: o.w, x: o.x, y: o.y, z: d.z });
 				g.c.d = true;
 			};
@@ -324,11 +325,15 @@ var g = {
 				h.drag = 1;
 				g.w.l = h.drag;
 			};
+			h.docked = function () {
+				return ((Math.abs (g.op.dock.y - h.y) < 0.5 * g.op.dock.h) && (Math.abs (g.op.dock.x - h.x) < 0.5 * g.op.dock.w));
+			};
 			h.drop = function () {
 				if (h.drag > 2) {
 					h.drag = 0;
 					g.c.wipe ({ id: this.id });
 					h.b ();
+					if (!h.docked()) g.a.p (g.a.tock2);
 				};
 			};
 			h.move = function () {
@@ -337,8 +342,16 @@ var g = {
 					h.s ();
 				};
 			};
-			h.in = function () { this.i = g.i.home; this.y -= 0.01; };
-			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a.p (g.a.tock); };
+			h.in = function () {
+				if (h.docked ()) {
+					this.i = g.i.home; this.y -= 0.01;
+				};
+			};
+			h.out = function () {
+				if (h.docked ()) {
+					this.i = g.i.home; this.y += 0.01; g.a.p (g.a.tock);
+				};
+			};
 
 			h.b = function () {
 				g.g.b = { a: h.a, h: h.h, hk: h.hk, i: h.i, id: 'button' + h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
@@ -368,7 +381,7 @@ var g = {
 	o: [],
 
 	op: {
-		dock: { auto: false, w: 0.55, y: 0.9 },
+		dock: { auto: false, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true
 	},
 
@@ -419,7 +432,7 @@ var g = {
 g.a.l = {
 	begin: 'data/begin.ogg',
 	tk: 'data/tk.ogg',
-	tock: 'data/tock.ogg'
+	tock: 'data/tock.ogg', tock2: 'data/tock2.ogg'
 };
 
 g.i.l = {
