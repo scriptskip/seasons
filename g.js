@@ -189,14 +189,13 @@ var g = {
 				b.c.b = b.c.b || '#000'; b.c.ba = b.c.ba || b.c.b; b.c.bd = b.c.b;
 				b.c.t = b.c.t || '#fff'; b.c.ta = b.c.ta || b.c.t; b.c.td = b.c.t;
 			};
-			b.cursor = true;
 			b.in = b.in || function () {};
 			b.out = b.out || function () {};
 			b.over = false;
 			b.wp = b.wp || 0.6;
 			b.z = b.z || 0;
 
-			b.action = function () { if (b.detect ()) { b.a (); } else { if (!b.cursor) { b.cursor = true; g.c.style.cursor = 'default'; }; }; };
+			b.action = function () { if (b.detect ()) { b.a (); };};
 
 			b.active = function () {
 				if (b.detect ()) {
@@ -207,10 +206,8 @@ var g = {
 							if (b.c.ta) b.c.t = b.c.ta;
 						};
 						b.s ();
-						if (b.cursor) g.c.style.cursor = 'pointer';
 					};
-				}
-				else {
+				} else {
 					if (b.over) {
 						b.over = false; b.out ();
 						if (b.c) {
@@ -218,7 +215,6 @@ var g = {
 							if (b.c.ta) b.c.t = b.c.td;
 						};
 						b.s ();
-						if (b.cursor) g.c.style.cursor = 'default';
 					};
 				}};
 
@@ -235,12 +231,6 @@ var g = {
 				if (b.i) g.d ({ h: o.h, i: b.i, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z });
 				if (b.c) g.d ({ f: b.c.b, h: o.h, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z });
 				g.c.d = true;
-			};
-
-			b.wipe = function () {
-				g.c.style.cursor = 'default';
-				g.w.wipe ({ id: b.id });
-				g.c.wipe ({ id: b.id }, true);
 			};
 
 			b.u = function () { switch (g.e.type) {
@@ -400,13 +390,15 @@ var g = {
 		g.w = w;
 	},
 
-	wipe: function (o) { g.o = []; g.s = []; g.c.d = true; g.c.style.cursor = 'default'; },
+	wipe: function (o) { g.o = []; g.s = []; g.c.d = true; },
 
 	u: function () { g.w.u (); g.c.u (); for (var i = g.o.length; i--;) if (g.o[i]) g.o[i].u (); }
 };
 
 g.a.l = {
 	begin: 'data/begin.ogg',
+	dig: 'data/dig.ogg',
+	shih: 'data/shih.ogg',
 	tk: 'data/tk.ogg',
 	tock: 'data/tock.ogg', tock2: 'data/tock2.ogg'
 };
@@ -429,11 +421,11 @@ g.lvl.begin = function () {
 	g.c.bg (g.i.grass);
 	g.w.t = 0;
 	g.g.d = { z: 0 };
-	g.g.build = { a1: g.a.tock, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
+	g.g.build = { a1: g.a.shih, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
 	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.85 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'soil3', i: g.i.soil, w: 0.04, x: 0.7, y: 0.85 };
+	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
+	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.85 };
+	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil3', i: g.i.soil, w: 0.04, x: 0.7, y: 0.85 };
 
 	g.a.p (g.a.begin, 1);
 };
