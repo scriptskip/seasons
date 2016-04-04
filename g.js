@@ -163,13 +163,28 @@ var g = {
 	},
 
 	g: {
+		set area (a) {
+			a.id = a.id || 'area' + g.o.length;
+
+			a.s = function () {
+
+			};
+
+			a.u = function () { switch (g.e.type) {
+
+			};};
+			a.s ();
+			g.o.push (a);
+		},
+
 		set b (b) {
 			b.id = b.id || 'button' + g.o.length;
 
 			b.a = b.a || function () { g.w.l = b.id; b.wipe (); };
-			b.c = b.c || {};
-			b.c.b = b.c.b || '#000'; b.c.ba = b.c.ba || b.c.b; b.c.bd = b.c.b;
-			b.c.t = b.c.t || '#fff'; b.c.ta = b.c.ta || b.c.t; b.c.td = b.c.t;
+			b.c = b.c; if (b.c) {
+				b.c.b = b.c.b || '#000'; b.c.ba = b.c.ba || b.c.b; b.c.bd = b.c.b;
+				b.c.t = b.c.t || '#fff'; b.c.ta = b.c.ta || b.c.t; b.c.td = b.c.t;
+			};
 			b.cursor = true;
 			b.in = b.in || function () {};
 			b.out = b.out || function () {};
@@ -183,18 +198,22 @@ var g = {
 				if (b.detect ()) {
 					if (!b.over) {
 						b.over = true; b.in ();
-						if (b.c.ba) b.c.b = b.c.ba;
-						if (b.c.ta) b.c.t = b.c.ta;
-						if (b.c.ba || b.c.ta) b.s ();
+						if (b.c) {
+							if (b.c.ba) b.c.b = b.c.ba;
+							if (b.c.ta) b.c.t = b.c.ta;
+						};
+						b.s ();
 						if (b.cursor) g.c.style.cursor = 'pointer';
 					};
 				}
 				else {
 					if (b.over) {
 						b.over = false; b.out ();
-						if (b.c.ba) b.c.b = b.c.bd;
-						if (b.c.ta) b.c.t = b.c.td;
-						if (b.c.ba || b.c.ta) b.s ();
+						if (b.c) {
+							if (b.c.ba) b.c.b = b.c.bd;
+							if (b.c.ta) b.c.t = b.c.td;
+						};
+						b.s ();
 						if (b.cursor) g.c.style.cursor = 'default';
 					};
 				}};
@@ -208,7 +227,7 @@ var g = {
 			b.s = function () {
 				g.c.wipe ({ id: b.id });
 				var o = g.c.hwxy (b);
-				g.d ({ f: b.c.b, h: o.h, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z });
+				if (b.c) g.d ({ f: b.c.b, h: o.h, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z });
 				if (b.i) g.d ({ h: o.h, i: b.i, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z + 1 });
 				if (b.t) g.d ({ f: b.c.t, h: o.h, id: b.id, t: b.t, ta: 'center', tb: 'middle', w: o.w * b.wp, x: b.x, y: b.y, z: b.z + 2 });
 				g.c.d = true;
@@ -277,8 +296,7 @@ var g = {
 			h.out = function () { this.i = g.i.hammer; this.y += 0.01; g.a.p (g.a.tock); };
 
 			h.s = function () {
-				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
-				g.c.d = true;
+				g.g.b = { a: h.a, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
 			};
 			h.u = function () { switch (g.e.type) {
 				case 'resize': h.s (); break;
@@ -302,8 +320,7 @@ var g = {
 			h.out = function () { this.i = g.i.home; this.y += 0.01; g.a.p (g.a.tock); };
 
 			h.s = function () {
-				g.g.b = { a: h.a, c: { b: 'transparent', ba: 'transparent' }, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
-				g.c.d = true;
+				g.g.b = { a: h.a, h: h.h, hk: h.hk, i: h.i, id: h.id, in: h.in, out: h.out, w: h.w, wk: h.wk, x: h.x, y: h.y, z: h.z };
 			};
 			h.u = function () { switch (g.e.type) {
 				case 'resize': h.s (); break;
