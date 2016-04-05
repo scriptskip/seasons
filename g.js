@@ -141,7 +141,7 @@ var g = {
 				};
 			};
 			g.c.d = false;
-			if (g.op.fps) g.w.l = 'draw: ' + g.s.length;
+			if (g.op.fps) { g.op.fps  = g.s.length; };
 		};
 	},
 
@@ -164,7 +164,13 @@ var g = {
 
 	g: {
 		set area (a) {
-			a.id = a.id || 'area' + g.o.length;
+			a.type = a.type || 'area';
+			a.id = a.id || a.type + g.o.length;
+
+			a.a0 = a.a0 || g.op.area[a.type].a0;
+			a.a1 = a.a1 || g.op.area[a.type].a1;
+			a.t = a.i || g.i[g.op.area[a.type].i];
+			a.t = a.t || g.op.area[a.type].t;
 
 			a.u = function () { switch (g.e.type) {
 			};};
@@ -326,6 +332,37 @@ var g = {
 			g.g.home = {};
 			d.s ();
 			g.o.push (d);
+		},
+
+		set stat (s) {
+			s.id = s.id || 'stat' + g.o.length;
+
+			s.old = '';
+			s.t = s.t || 0;
+			s.x = s.x || 0.1; s.y = s.y || 0.1;
+			s.z = s.z || 2;
+
+			s.upd = function () {
+				if (s.old != g.op[s.t]) {
+					s.old = g.op[s.t];
+					s.s ();
+				};
+			};
+
+			s.s = function () {
+				g.c.wipe ({ id: s.id });
+				var o = g.c.hwxy (s);
+				var t = g.op[s.t] + '';
+				g.d ({ h: o.h, i: s.i, id: s.id, w: o.w, x: o.x, y: o.y, z: s.z });
+				g.d ({ f: '#fff', h: o.h, id: s.id, t: t, ta: 'left', tb: 'middle', x: s.x + 0.75 * o.w, y: s.y, z: s.z });
+				g.c.d = true;
+			};
+			s.u = function () { switch (g.e.type) {
+				case 'resize': s.s (); break;
+				case 'tick': s.upd (); break;
+			}};
+			s.s ();
+			g.o.push (s);
 		}
 	},
 
@@ -337,8 +374,15 @@ var g = {
 	o: [],
 
 	op: {
+		area: {
+			area: { i: 'soil', t: 1000 },
+			garbage: { t: 1000 },
+			garden: { i: 'soil', t: 1000 },
+			yard: { t: 1000 }
+		},
 		dock: { auto: false, hk: 0.1, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
+		money: 0,
 		table: { auto: false, hk: 1, w: 0.2, x: 0.1, y: 0.8 },
 	},
 
@@ -389,19 +433,24 @@ var g = {
 g.a.l = {
 	begin: 'data/begin.ogg',
 	dig: 'data/dig.ogg',
+	paper: 'data/paper.ogg', paper2: 'data/paper2.ogg',
 	shih: 'data/shih.ogg',
 	tk: 'data/tk.ogg',
 	tock: 'data/tock.ogg', tock2: 'data/tock2.ogg'
 };
 
 g.i.l = {
+	design_box: 'data/design_box.svg',
 	dock: 'data/dock.svg',
+	draw: 'data/draw.svg',
 	hammer: 'data/hammer.svg', hammer_cursor: 'data/hammer_cursor.png', hammer_up: 'data/hammer_up.svg',
 	home: 'data/home.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	snow: 'data/snow.png',
 	soil: 'data/soil.svg',
-	table: 'data/table.svg'
+	table: 'data/table.svg',
+	wheat: 'data/wheat.svg',
+	yuan: 'data/yuan.svg'
 };
 
 g.run = function () {
@@ -415,10 +464,12 @@ g.lvl.begin = function () {
 	g.g.d = { id: 'dock', z: 0 };
 	g.g.d = { i: g.i.table, id: 'table' };
 	g.g.build = { a1: g.a.shih, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.85 };
-	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.85 };
-	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.85 };
-	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil3', i: g.i.soil, w: 0.04, x: 0.7, y: 0.85 };
+	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.87 };
+	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.87 };
+	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.87};
+	g.g.build = { a0: g.a.paper2, a1: g.a.paper, hk: 1, id: 'design_box', i: g.i.design_box, w: 0.075, x: 0.7, y: 0.86 };
+	g.g.stat = { h: 0.075, i: g.i.yuan, id: 'money', t: 'money', wk: 2, x: 0.05, y: 0.05 };
+	g.g.stat = { h: 0.05, i: g.i.draw, id: 'date', t: 'fps', wk: 1, x: 0.95, y: 0.05 };
 
 	g.a.p (g.a.begin, 1);
 };
