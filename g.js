@@ -260,7 +260,8 @@ var g = {
 				if (b.drag > 2) {
 					b.drag = 0;
 					g.c.wipe ({ id: this.id });
-					if (!b.docked()) { g.a.p (b.a1); };
+					if (b.tabled ()) { delete g.op.table.items[b.id]; g.op.table.items[b.id] = b; } else { delete g.op.table.items[b.id] };
+					if (!b.docked () && !b.tabled ()) { g.a.p (b.a1); };
 					b.b ();
 				};
 			};
@@ -272,14 +273,17 @@ var g = {
 				};
 			};
 			b.in = function () {
-				if (b.docked ()) {
+				if (b.docked () || b.tabled ()) {
 					this.i = b.i1; this.y -= 0.01;
 				};
 			};
 			b.out = function () {
-				if (b.docked ()) {
+				if (b.docked () || b.tabled ()) {
 					this.i = b.i0; this.y += 0.01; g.a.p (b.a0);
 				};
+			};
+			b.tabled = function () {
+				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
 			};
 
 			b.b = function () {
@@ -383,7 +387,7 @@ var g = {
 		dock: { auto: false, hk: 0.1, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
 		money: 0,
-		table: { auto: false, hk: 1, w: 0.2, x: 0.1, y: 0.8 },
+		table: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.1, y: 0.8 },
 	},
 
 	r: function (a, b, c) {
@@ -469,7 +473,7 @@ g.lvl.begin = function () {
 	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.87};
 	g.g.build = { a0: g.a.paper2, a1: g.a.paper, hk: 1, id: 'design_box', i: g.i.design_box, w: 0.075, x: 0.7, y: 0.86 };
 	g.g.stat = { h: 0.075, i: g.i.yuan, id: 'money', t: 'money', wk: 2, x: 0.05, y: 0.05 };
-	g.g.stat = { h: 0.05, i: g.i.draw, id: 'date', t: 'fps', wk: 1, x: 0.95, y: 0.05 };
+	g.g.stat = { h: 0.05, i: g.i.draw, id: 'date', t: 'fps', wk: 1, x: 0.9, y: 0.05 };
 
 	g.a.p (g.a.begin, 1);
 };
