@@ -94,10 +94,11 @@ var g = {
 						if (c.lw) g.c.c.lineWidth = Math.floor (c.lw * Math.min (g.c.H, g.c.W));
 						if (c.s) g.c.c.strokeStyle = c.s;
 						if (c.tan) {
+							var rx = x + 0.5 * w || r; ry = y + 0.5 * h || r;
 							g.c.c.save ();
-							g.c.c.translate (x + 0.5 * w, y + 0.5 * h);
+							g.c.c.translate (rx, ry);
 							g.c.c.rotate (c.tan * Math.PI / 180);
-							g.c.c.translate (-x - 0.5 * w, -y - 0.5 * h);
+							g.c.c.translate (-rx, -ry);
 						};
 
 						switch (c.type) {
@@ -393,17 +394,36 @@ var g = {
 
 			s.h = 0.1; s.wk = 1;
 			s.i = g.i.sun;
-			s.tan = 45;
-			s.x = s.x || 0.5; s.y = s.y || 0; s.z = 2;
+			s.season = 'summer';
+			s.tan = 0;
+			s.t0 = 0; s.ti = 1000;
+			s.x = s.x || 0.5; s.y = s.y || 0; s.z = 1;
+
+			s.time = function () {
+				if (g.w.t > s.t0 + s.ti) {
+					s.t0 = g.w.t;
+					s.tan = (s.tan < 360) ? s.tan + 1.5 : 0;
+					switch (s.season) {
+						case 'fall': if (s.tan >= 180) { s.season = 'winter'; g.c.bg (g.i.snow); }; break;
+						case 'spring': if (s.tan >= 360) { s.season = 'summer'; g.c.bg (g.i.grass); }; break;
+						case 'summer': if (s.tan >= 90) { s.season = 'fall'; g.c.bg (g.i.grass_fall); }; break;
+						case 'winter': if (s.tan >= 270) { s.season = 'spring'; g.c.bg (g.i.grass_spring); }; break;
+					};
+					s.s ();
+				};
+			};
 
 			s.s = function () {
 				g.c.wipe ({ id: s.id });
 				var o = g.c.hwxy (s);
 				g.d ({ h: o.h, i: s.i, id: s.id, tan: s.tan, w: o.w, x: o.x, y: o.y, z: s.z });
+				g.d ({ id: s.id, lw: 10 / g.c.H, r: 0.5 * o.h, s: '#fff', x: s.x, y: s.y, z: s.z +1 });
+				g.c.d = true;
 			};
 
 			s.u = function () { switch (g.e.type) {
 				case 'resize': s.tan++; s.s (); break;
+				case 'tick': s.time (); break;
 			};};
 			s.s ();
 			g.o.push (s);
