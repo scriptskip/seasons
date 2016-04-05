@@ -459,7 +459,7 @@ var g = {
 			};
 
 			s.u = function () { switch (g.e.type) {
-				case 'resize': s.tan++; s.s (); break;
+				case 'resize': s.s (); break;
 				case 'tick': s.time (); break;
 			};};
 			s.s ();
