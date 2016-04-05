@@ -167,13 +167,21 @@ var g = {
 			a.type = a.type || 'area';
 			a.id = a.id || a.type + g.o.length;
 
-			a.a0 = a.a0 || g.op.area[a.type].a0;
-			a.a1 = a.a1 || g.op.area[a.type].a1;
-			a.t = a.i || g.i[g.op.area[a.type].i];
+			a.a0 = a.a0 || g.op.area[a.type].a0 || g.a.tock;
+			a.a1 = a.a1 || g.op.area[a.type].a1 || g.a.dig;
+			a.hk = a.hk || g.op.area[a.type].hk || 1.8;
+			a.i = a.i || g.i[g.op.area[a.type].i];
 			a.t = a.t || g.op.area[a.type].t;
+			a.w = a.w || g.op.area[a.type].w || 0.04;
+			a.x = a.x || g.r (0.3, 0.7); a.y = a.y || g.op.dock.y;
+
+			a.s = function () {
+				g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, w: a.w, x: a.x, y: a.y };
+			};
 
 			a.u = function () { switch (g.e.type) {
 			};};
+			a.s ();
 			g.o.push (a);
 		},
 
@@ -239,7 +247,8 @@ var g = {
 		},
 
 		set build (b) {
-			b.id = b.id || 'build' + g.o.length;
+			b.type = b.type || 'build';
+			b.id = b.id || b.type + g.o.length;
 
 			b.a0 = b.a0 || g.a.tock; b.a1 = b.a1 || g.a.tock2;
 			b.drag = 0; b.drago = 1;
@@ -381,7 +390,7 @@ var g = {
 		area: {
 			area: { i: 'soil', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { i: 'soil', t: 1000 },
+			garden: { hk: 1.8, i: 'soil', t: 1000, w: 0.04, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		dock: { auto: false, hk: 0.1, w: 0.55, x: 0.5, y: 0.9 },
@@ -469,8 +478,7 @@ g.lvl.begin = function () {
 	g.g.d = { i: g.i.table, id: 'table' };
 	g.g.build = { a1: g.a.shih, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
 	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.87 };
-	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil', i: g.i.soil, w: 0.04, x: 0.5, y: 0.87 };
-	g.g.build = { a1: g.a.dig, hk: 1.8, id: 'soil2', i: g.i.soil, w: 0.04, x: 0.6, y: 0.87};
+	g.g.area = { type: 'garden', x: 0.5 }; g.g.area = { type: 'garden', x: 0.6 };
 	g.g.build = { a0: g.a.paper2, a1: g.a.paper, hk: 1, id: 'design_box', i: g.i.design_box, w: 0.075, x: 0.7, y: 0.86 };
 	g.g.stat = { h: 0.075, i: g.i.yuan, id: 'money', t: 'money', wk: 2, x: 0.05, y: 0.05 };
 	g.g.stat = { h: 0.05, i: g.i.draw, id: 'date', t: 'fps', wk: 1, x: 0.9, y: 0.05 };
