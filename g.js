@@ -93,6 +93,12 @@ var g = {
 						if (c.f) g.c.c.fillStyle = c.f;
 						if (c.lw) g.c.c.lineWidth = Math.floor (c.lw * Math.min (g.c.H, g.c.W));
 						if (c.s) g.c.c.strokeStyle = c.s;
+						if (c.tan) {
+							g.c.c.save ();
+							g.c.c.translate (x + 0.5 * w, y + 0.5 * h);
+							g.c.c.rotate (c.tan * Math.PI / 180);
+							g.c.c.translate (-x - 0.5 * w, -y - 0.5 * h);
+						};
 
 						switch (c.type) {
 							case 'box':
@@ -136,6 +142,10 @@ var g = {
 								if (c.f) g.c.c.fillText (c.t, x, y);
 								if (c.s) g.c.c.strokeText (c.t, x, y);
 							break;
+						};
+
+						if (c.tan) {
+							g.c.c.restore ();
 						};
 					};
 				};
@@ -376,6 +386,27 @@ var g = {
 			}};
 			s.s ();
 			g.o.push (s);
+		},
+
+		set sun (s) {
+			s.id = 'sun';
+
+			s.h = 0.1; s.wk = 1;
+			s.i = g.i.sun;
+			s.tan = 45;
+			s.x = s.x || 0.5; s.y = s.y || 0; s.z = 2;
+
+			s.s = function () {
+				g.c.wipe ({ id: s.id });
+				var o = g.c.hwxy (s);
+				g.d ({ h: o.h, i: s.i, id: s.id, tan: s.tan, w: o.w, x: o.x, y: o.y, z: s.z });
+			};
+
+			s.u = function () { switch (g.e.type) {
+				case 'resize': s.tan++; s.s (); break;
+			};};
+			s.s ();
+			g.o.push (s);
 		}
 	},
 
@@ -461,6 +492,7 @@ g.i.l = {
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	snow: 'data/snow.png',
 	soil: 'data/soil.svg',
+	sun: 'data/sun.svg',
 	table: 'data/table.svg',
 	wheat: 'data/wheat.svg',
 	yuan: 'data/yuan.svg'
@@ -476,6 +508,8 @@ g.lvl.begin = function () {
 	g.w.t = 0;
 	g.g.d = { id: 'dock', z: 0 };
 	g.g.d = { i: g.i.table, id: 'table' };
+	g.g.sun = {};
+
 	g.g.build = { a1: g.a.shih, hk: 0.9, id: 'hammer', i: g.i.hammer, i1: g.i.hammer_up, w: 0.05, x: 0.3, y: 0.9 };
 	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.87 };
 	g.g.area = { type: 'garden', x: 0.5 }; g.g.area = { type: 'garden', x: 0.6 };
