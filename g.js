@@ -441,10 +441,10 @@ var g = {
 					s.t0 = g.w.t;
 					s.tan = (s.tan < 360) ? s.tan + 1.5 : 0;
 					switch (s.season) {
-						case 'fall': if (s.tan >= 180) { s.c = '#69D9EF'; s.season = 'winter'; g.op.season = 'winter'; g.c.bg (g.i.snow); g.a.p (g.a.winter, 0.07, true); }; break;
-						case 'spring': if (s.tan >= 360) { s.c = '#FF6300'; s.season = 'summer'; g.op.season = 'summer'; g.c.bg (g.i.grass); g.a.p (g.a.summer, 0.09, true); }; break;
-						case 'summer': if (s.tan >= 90) { s.c = '#FBD200'; s.season = 'fall'; g.op.season = 'fall'; g.c.bg (g.i.grass_fall); g.a.p (g.a.fall, 0.11, true); }; break;
-						case 'winter': if (s.tan >= 270) { s.c = '#ADC936'; s.season = 'spring'; g.op.season = 'spring'; g.c.bg (g.i.grass_spring); g.a.p (g.a.spring, 0.1, true); }; break;
+						case 'fall': if (s.tan >= 180) { s.c = '#69D9EF'; s.season = 'winter'; g.op.season = 'winter'; g.c.bg (g.i.snow); g.a.p (g.a.winter, 0.2, true); }; break;
+						case 'spring': if (s.tan >= 360) { s.c = '#FF6300'; s.season = 'summer'; g.op.season = 'summer'; g.c.bg (g.i.grass); g.a.p (g.a.summer, 0.2, true); }; break;
+						case 'summer': if (s.tan >= 90) { s.c = '#FBD200'; s.season = 'fall'; g.op.season = 'fall'; g.c.bg (g.i.grass_fall); g.a.p (g.a.fall, 0.2, true); }; break;
+						case 'winter': if (s.tan >= 270) { s.c = '#ADC936'; s.season = 'spring'; g.op.season = 'spring'; g.c.bg (g.i.grass_spring); g.a.p (g.a.spring, 0.2, true); }; break;
 					};
 					s.s ();
 				};
@@ -463,7 +463,7 @@ var g = {
 				case 'tick': s.time (); break;
 			};};
 			s.s ();
-			g.a.p (g.a.summer, 0.5, true);
+			g.a.p (g.a.summer, 0.2, true);
 			g.o.push (s);
 		}
 	},
