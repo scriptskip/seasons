@@ -201,7 +201,20 @@ var g = {
 			a.w = a.w || g.op.area[a.type].w || 0.04;
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
 
-			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, type: a.type, w: a.w, x: a.x, y: a.y };
+			a.up = function () {
+				for (var id = g.o.length; id--;) {
+					if ((g.o[id].tag == 'item')) {
+						var o = g.o[id];
+						if ((Math.abs (o.x - this.x) < 0.5 * this.w) && (Math.abs (o.y - this.y) < 0.5 * this.h)) {
+							switch (o.type) {
+								case 'wheat': g.w.l = o.id; break;
+							};
+						};
+					};
+				};
+			};
+
+			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, tag: a.tag, type: a.type, up: a.up, w: a.w, x: a.x, y: a.y };
 		},
 
 		set b (b) {
@@ -266,7 +279,7 @@ var g = {
 		},
 
 		set build (b) {
-			b.tag = 'build';
+			b.tag = b.tag || 'build';
 			b.type = b.type || 'build';
 			b.id = b.id || b.type + g.o.length;
 
@@ -314,20 +327,24 @@ var g = {
 			b.tabled = function () {
 				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
 			};
+			b.tick = b.tick || function () {};
+			b.up = b.up || function () {};
 
 			b.b = function () {
 				g.g.b = { a: b.a, h: b.h, hk: b.hk, i: b.i, id: 'button' + b.id, in: b.in, out: b.out, w: b.w, wk: b.wk, x: b.x, y: b.y, z: b.z };
 			};
-
 			b.s = function () {
 				g.c.wipe ({ id: b.id });
 				var o = g.c.hwxy (b);
+				g.h = o.h;
 				g.d ({ h: o.h, i: b.i1, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z + 1 });
 				g.c.d = true;
 			};
 			b.u = function () { switch (g.e.type) {
 				case 'click': b.drop (); break;
 				case 'mousemove': b.move (); break;
+				case 'mouseup': b.up (); break;
+				case 'tick': b.tick (); break;
 			};};
 			b.b ();
 			g.o.push (b);
@@ -380,8 +397,7 @@ var g = {
 			a.w = a.w || g.op.item[a.type].w || 0.04;
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
 
-			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, type: a.type, w: a.w, x: a.x, y: a.y };
-
+			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, tag: a.tag, type: a.type, w: a.w, x: a.x, y: a.y };
 		},
 
 		set stat (s) {
