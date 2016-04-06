@@ -207,7 +207,13 @@ var g = {
 						var o = g.o[id];
 						if ((Math.abs (o.x - this.x) < 0.5 * this.w) && (Math.abs (o.y - this.y) < 0.5 * this.h)) {
 							switch (o.type) {
-								case 'wheat': g.w.l = o.id; break;
+								case 'wheat':
+									g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
+									this.i = g.i[g.op.area[this.type].wheat.i];
+									this.i0 = g.i[g.op.area[this.type].wheat.i];
+									this.b ();
+									this.s ();
+									break;
 							};
 						};
 					};
@@ -286,7 +292,7 @@ var g = {
 			b.a0 = b.a0 || g.a.tock; b.a1 = b.a1 || g.a.tock2;
 			b.drag = 0; b.drago = 1;
 			b.hk = b.hk || 1.8; b.w = b.w || 0.04;
-			b.i = b.i || g.i.home; b.i0 = b.i; b.i1 = b.i1 || b.i;
+			b.i = b.i || g.i.home; b.i0 = b.i; b.i1 = b.i1;
 			b.x = b.x || 0.35; b.y = b.y || 0.87; b.yin = b.y - 0.02;
 			b.z = b.z || 1;
 
@@ -316,7 +322,7 @@ var g = {
 			};
 			b.in = function () {
 				if (b.docked () || b.tabled ()) {
-					this.i = b.i1; this.y -= 0.01;
+					this.i = b.i1 || b.i; this.y -= 0.01;
 				};
 			};
 			b.out = function () {
@@ -335,9 +341,10 @@ var g = {
 			};
 			b.s = function () {
 				g.c.wipe ({ id: b.id });
+				var i = b.i1 || b.i;
 				var o = g.c.hwxy (b);
 				g.h = o.h;
-				g.d ({ h: o.h, i: b.i1, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z + 1 });
+				g.d ({ h: o.h, i: i, id: b.id, w: o.w, x: o.x, y: o.y, z: b.z + 1 });
 				g.c.d = true;
 			};
 			b.u = function () { switch (g.e.type) {
@@ -485,7 +492,7 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', t: 1000, w: 0.07, y: 0.87 },
+			garden: { hk: 1, i: 'garden', t: 1000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
