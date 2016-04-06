@@ -201,26 +201,46 @@ var g = {
 			a.w = a.w || g.op.area[a.type].w || 0.04;
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
 
+			a.tick = function () {
+				if (this.planted) {
+					this.t += g.w.i;
+					if (this.t > a.t) {
+						this.i = g.i[g.op.area[this.type].i];
+						this.i0 = g.i[g.op.area[this.type].i];
+						this.planted = false;
+						this.b ();
+						this.s ();
+						if (g.op.season != 'winter') {
+							g.g.item = { type: 'wheat' }; g.g.item = { type: 'wheat' };
+						};
+					};
+				};
+			};
+
 			a.up = function () {
 				for (var id = g.o.length; id--;) {
 					if ((g.o[id].tag == 'item')) {
 						var o = g.o[id];
 						if ((Math.abs (o.x - this.x) < 0.5 * this.w) && (Math.abs (o.y - this.y) < 0.5 * this.h)) {
-							switch (o.type) {
-								case 'wheat':
-									g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
-									this.i = g.i[g.op.area[this.type].wheat.i];
-									this.i0 = g.i[g.op.area[this.type].wheat.i];
-									this.b ();
-									this.s ();
-									break;
+							if (g.op.season != 'winter') {
+								switch (o.type) {
+									case 'wheat':
+										g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
+										this.i = g.i[g.op.area[this.type].wheat.i];
+										this.i0 = g.i[g.op.area[this.type].wheat.i];
+										this.planted = true;
+										this.t = 0;
+										this.b ();
+										this.s ();
+										break;
+								};
 							};
 						};
 					};
 				};
 			};
 
-			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, tag: a.tag, type: a.type, up: a.up, w: a.w, x: a.x, y: a.y };
+			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, tag: a.tag, tick: a.tick, type: a.type, up: a.up, w: a.w, x: a.x, y: a.y };
 		},
 
 		set b (b) {
@@ -492,7 +512,7 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', t: 1000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
+			garden: { hk: 1, i: 'garden', t: 60000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
@@ -501,12 +521,9 @@ var g = {
 			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', w: 0.075, y: 0.86 },
 			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', w: 0.05, y: 0.9 },
 			item: { i: 'hammer' },
-			wheat: { hk: 2, i: 'wheat', w: 0.025, y: 0.9 }
+			wheat: { a0: 'wheat', hk: 2, i: 'wheat', w: 0.025, y: 0.9 }
 		},
 		money: 0,
-		recipe: {
-
-		},
 		season: 'summer',
 		table: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.1, y: 0.8 },
 	},
@@ -565,6 +582,7 @@ g.a.l = {
 	summer: 'data/summer.ogg',
 	tk: 'data/tk.ogg',
 	tock: 'data/tock.ogg', tock2: 'data/tock2.ogg',
+	wheat: 'data/wheat.ogg',
 	winter: 'data/winter.ogg'
 };
 
