@@ -197,6 +197,7 @@ var g = {
 			a.a1 = a.a1 || g.a[g.op.area[a.type].a1] || g.a.dig;
 			a.hk = a.hk || g.op.area[a.type].hk || 1.8;
 			a.i = a.i || g.i[g.op.area[a.type].i]; a.i1 = a.i1 || g.i[g.op.area[a.type].i1];
+			a.price = a.price || g.op.area[a.type].price || 0;
 			a.t = a.t || g.op.area[a.type].t;
 			a.w = a.w || g.op.area[a.type].w || 0.04;
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
@@ -314,9 +315,10 @@ var g = {
 
 			b.a0 = b.a0 || g.a[g.op.build[b.type].a0] || g.a.tock; b.a1 = b.a1 || g.a[g.op.build[b.type].a1] || g.a.tock2;
 			b.drag = 0; b.drago = 1;
-			b.hk = b.hk || g.op.build[b.type].hk || 1.8; b.w = b.w || g.op.build[b.type].w || 0.04;
-			b.i = b.i || g.i[g.op.build[b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
-			b.x = b.x || g.op.build[b.type].x || 0.35; b.y = b.y || g.op.build[b.type].y || 0.87; b.yin = b.y - 0.02;
+			b.hk = b.hk || g.op[b.tag][b.type].hk || 1.8; b.w = b.w || g.op[b.tag][b.type].w || 0.04;
+			b.i = b.i || g.i[g.op[b.tag][b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
+			b.price = b.price || g.op[b.tag][b.type].price || 0;
+			b.x = b.x || g.op[b.tag][b.type].x || 0.35; b.y = b.y || g.op[b.tag][b.type].y || 0.87; b.yin = b.y - 0.02;
 			b.z = b.z || 1;
 
 			b.a = function () {
@@ -333,7 +335,7 @@ var g = {
 					g.c.wipe ({ id: this.id });
 					if (b.tabled ()) { delete g.op.table.items[b.id]; g.op.table.items[b.id] = b; } else { delete g.op.table.items[b.id] };
 					if (!b.docked () && !b.tabled ()) { g.a.p (b.a1); };
-					b.b ();
+					if (!b.sell ()) { b.b (); };
 				};
 			};
 			b.marked = function () {
@@ -355,6 +357,18 @@ var g = {
 				if (b.docked () || b.tabled ()) {
 					this.i = b.i0; this.y += 0.01; g.a.p (b.a0);
 				};
+			};
+			b.sell = function () {
+				var sell = false;
+				if (b.marked ()) {
+					sell = true;
+					g.w.wipe ({ id: this.id }); g.w.wipe ({ id: 'button' + this.id });
+					g.c.wipe ({ id: this.id }); g.c.wipe ({ id: 'button' + this.id });
+					g.op.money += b.price;
+					g.c.d = true;
+					g.a.p (g.a.sell);
+				};
+				return sell;
 			};
 			b.tabled = function () {
 				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
@@ -426,11 +440,12 @@ var g = {
 			a.a1 = a.a1 || g.a[g.op.item[a.type].a1] || g.a.shih;
 			a.hk = a.hk || g.op.item[a.type].hk || 1.8;
 			a.i = a.i || g.i[g.op.item[a.type].i]; a.i1 = a.i1 || g.i[g.op.item[a.type].i1];
+			a.price = a.price || g.op.item[a.type].price || 0;
 			a.t = a.t || g.op.item[a.type].t;
 			a.w = a.w || g.op.item[a.type].w || 0.04;
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
 
-			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, tag: a.tag, type: a.type, w: a.w, x: a.x, y: a.y };
+			g.g.build = { a0: a.a0, a1: a.a1, hk: a.hk, id: a.id, i: a.i, i1: a.i1, price: a.price, tag: a.tag, type: a.type, w: a.w, x: a.x, y: a.y };
 		},
 
 		set stat (s) {
@@ -530,7 +545,7 @@ var g = {
 			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', w: 0.075, y: 0.86 },
 			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', w: 0.05, y: 0.9 },
 			item: { i: 'hammer' },
-			wheat: { a0: 'wheat', hk: 2, i: 'wheat', w: 0.025, y: 0.9 }
+			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
 		},
 		market: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.9, y: 0.8 },
 		money: 0,
@@ -587,6 +602,7 @@ g.a.l = {
 	dig: 'data/dig.ogg',
 	fall: 'data/fall.ogg',
 	paper: 'data/paper.ogg', paper2: 'data/paper2.ogg',
+	sell: 'data/sell.ogg',
 	shih: 'data/shih.ogg',
 	spring: 'data/spring.ogg',
 	summer: 'data/summer.ogg',
@@ -643,6 +659,6 @@ g.lvl.option = function () {
 
 g.lvl.start = function () {
 	g.wipe ();
-	g.c.b ('#000');
-	g.g.b = { a: g.lvl.begin, c: { b: 'transparent', ba: 'transparent', t: '#777', ta: '#fff' }, h: 0.5, t: 'START', w: 0.3, wp: 1, x: 0.5, y: 0.5, z: 1 };
+	g.c.b ('#bca');
+	g.g.b = { a: g.lvl.begin, c: { b: 'transparent', ba: 'transparent', t: '#786', ta: '#896' }, h: 0.5, t: 'START', w: 0.3, wp: 1, x: 0.5, y: 0.5, z: 1 };
 };
