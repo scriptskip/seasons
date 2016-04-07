@@ -322,8 +322,10 @@ var g = {
 			b.hk = b.hk || g.op[b.tag][b.type].hk || 1.8; b.w = b.w || g.op[b.tag][b.type].w || 0.04;
 			b.i = b.i || g.i[g.op[b.tag][b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
 			b.price = b.price || g.op[b.tag][b.type].price || 0;
+			b.power = b.power || (typeof (g.op[b.tag][b.type].power) == 'number') ? g.op[b.tag][b.type].power : undefined || (typeof (g.op[b.tag][b.type].power) == 'number') ? g.r (g.op[b.tag][b.type].power.min, g.op[b.tag][b.type].max, true) : undefined || 0;
 			b.t = b.t || g.op[b.tag][b.type].t;
 			b.x = b.x || g.op[b.tag][b.type].x || 0.35; b.y = b.y || g.op[b.tag][b.type].y || 0.87; b.yin = b.y - 0.02;
+			b.worked = b.worked || g.op[b.tag][b.type].worked;
 			b.z = b.z || 1;
 
 			b.a = function () {
@@ -336,10 +338,19 @@ var g = {
 			};
 			b.drop = function () {
 				if (b.drag > 2) {
+					b.placed = true;
 					b.drag = 0;
 					g.c.wipe ({ id: this.id });
-					if (b.tabled ()) { delete g.op.table.items[b.id]; g.op.table.items[b.id] = b; } else { delete g.op.table.items[b.id] };
+
+					if (b.tabled ()) {
+						delete g.op.table.items[b.id];
+						g.op.table.items[b.id] = b;
+					} else {
+						delete g.op.table.items[b.id]
+					};
+
 					if (!b.docked () && !b.tabled ()) { g.a.p (b.a1); };
+
 					if (!b.sell ()) { b.b (); };
 				};
 			};
@@ -381,16 +392,10 @@ var g = {
 			b.tick = b.tick || function () {
 				if (this.worked) {
 					this.t += g.w.i;
-					if (this.t > a.t) {
-						this.i = g.i[g.op[this.tag][this.type].i];
-						this.i0 = g.i[g.op[this.tag][this.type].i];
-						this.maked = false;
-
-						this.b ();
-						this.s ();
-
+					if (this.t > b.t) {
 						if (this.maked) {
-								g.g.item = { type: g.op.area[this.type][this.seed].get }; g.g.item = { type: 'wheat' };
+							var item = g.op[b.tag][b.type].get;
+							g.g.item = { type: 'wheat' };
 						};
 					};
 				};
@@ -473,6 +478,7 @@ var g = {
 		set stat (s) {
 			s.id = s.id || 'stat' + g.o.length;
 
+			s.f = s.f || '#fff';
 			s.old = '';
 			s.t = s.t || 0;
 			s.x = s.x || 0.1; s.y = s.y || 0.1;
@@ -490,7 +496,7 @@ var g = {
 				var o = g.c.hwxy (s);
 				var t = g.op[s.t] + '';
 				g.d ({ h: o.h, i: s.i, id: s.id, w: o.w, x: o.x, y: o.y, z: s.z });
-				g.d ({ f: '#fff', h: o.h, id: s.id, t: t, ta: 'left', tb: 'middle', x: s.x + 0.75 * o.w, y: s.y, z: s.z });
+				g.d ({ f: s.f, h: o.h, id: s.id, t: t, ta: 'left', tb: 'middle', x: s.x + 0.75 * o.w, y: s.y, z: s.z });
 				g.c.d = true;
 			};
 			s.u = function () { switch (g.e.type) {
@@ -559,7 +565,7 @@ var g = {
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', price: 20, t: 1000, w: 0.05, y: 0.87 }
+			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', power: 1, price: 20, t: 5000, w: 0.05, worked: true, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
