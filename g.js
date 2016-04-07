@@ -74,6 +74,29 @@ var g = {
 		g.c = c;
 	},
 
+	cheat: {
+		get fall () {
+			var sun = g.o.find (function (o) { return o.id == 'sun'; });
+				sun.season = 'summer'; sun.tan = 89;
+				sun.time ();
+		},
+		get spring () {
+			var sun = g.o.find (function (o) { return o.id == 'sun'; });
+				sun.season = 'winter'; sun.tan = 269;
+				sun.time ();
+		},
+		get summer () {
+			var sun = g.o.find (function (o) { return o.id == 'sun'; });
+				sun.season = 'spring'; sun.tan = 359;
+				sun.time ();
+		},
+		get winter () {
+			var sun = g.o.find (function (o) { return o.id == 'sun'; });
+				sun.season = 'fall'; sun.tan = 179;
+				sun.time ();
+		}
+	},
+
 	d: function (d) {
 		if (d) {
 			d.type = 'box';
@@ -243,8 +266,10 @@ var g = {
 										break;
 								};
 							} else {
-								g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
-								g.a.p (g.a.fail);
+								if (g.op.area[this.type][o.type]) {
+									g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
+									g.a.p (g.a.fail);
+								};
 							};
 						};
 					};
