@@ -548,7 +548,7 @@ var g = {
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
 		},
 		market: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.9, y: 0.8 },
-		money: 100,
+		money: 10,
 		season: 'summer',
 		table: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.1, y: 0.8 },
 	},
