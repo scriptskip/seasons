@@ -323,7 +323,7 @@ var g = {
 			b.i = b.i || g.i[g.op[b.tag][b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
 			b.price = b.price || g.op[b.tag][b.type].price || 0;
 			b.power = b.power || (typeof (g.op[b.tag][b.type].power) == 'number') ? g.op[b.tag][b.type].power : undefined || (typeof (g.op[b.tag][b.type].power) == 'number') ? g.r (g.op[b.tag][b.type].power.min, g.op[b.tag][b.type].max, true) : undefined || 0;
-			b.t = b.t || g.op[b.tag][b.type].t;
+			b.t = b.t || g.op[b.tag][b.type].t; b.time = 0;
 			b.x = b.x || g.op[b.tag][b.type].x || 0.35; b.y = b.y || g.op[b.tag][b.type].y || 0.87; b.yin = b.y - 0.02;
 			b.worked = b.worked || g.op[b.tag][b.type].worked;
 			b.z = b.z || 1;
@@ -338,8 +338,8 @@ var g = {
 			};
 			b.drop = function () {
 				if (b.drag > 2) {
-					b.placed = true;
 					b.drag = 0;
+					b.place ();
 					g.c.wipe ({ id: this.id });
 
 					if (b.tabled ()) {
@@ -374,6 +374,14 @@ var g = {
 					this.i = b.i0; this.y += 0.01; g.a.p (b.a0);
 				};
 			};
+			b.place = function () {
+				if (!b.tabled () && !b.docked () && !b.marked ()) {
+					this.placed = true;
+					this.time = 0;
+				} else {
+					this.placed = false;
+				};
+			};
 			b.sell = function () {
 				var sell = false;
 				if (b.marked ()) {
@@ -390,12 +398,13 @@ var g = {
 				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
 			};
 			b.tick = b.tick || function () {
-				if (this.worked) {
-					this.t += g.w.i;
-					if (this.t > b.t) {
-						if (this.maked) {
+				if (this.placed) {
+					if (this.worked) {
+						this.time += g.w.i;
+						if (this.time > this.t) {
+							this.time = 0;
 							var item = g.op[b.tag][b.type].get;
-							g.g.item = { type: 'wheat' };
+							g.g.item = { type: item };
 						};
 					};
 				};
@@ -565,7 +574,7 @@ var g = {
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', power: 1, price: 20, t: 5000, w: 0.05, worked: true, y: 0.87 }
+			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', power: 1, price: 20, t: 240000, w: 0.05, worked: true, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
