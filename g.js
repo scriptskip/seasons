@@ -232,8 +232,11 @@ var g = {
 										this.t = 0;
 										this.b ();
 										this.s ();
+										g.a.p (o.a1);
 										break;
 								};
+							} else {
+								g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
 							};
 						};
 					};
@@ -309,11 +312,11 @@ var g = {
 			b.type = b.type || 'build';
 			b.id = b.id || b.type + g.o.length;
 
-			b.a0 = b.a0 || g.a.tock; b.a1 = b.a1 || g.a.tock2;
+			b.a0 = b.a0 || g.a[g.op.build[b.type].a0] || g.a.tock; b.a1 = b.a1 || g.a[g.op.build[b.type].a1] || g.a.tock2;
 			b.drag = 0; b.drago = 1;
-			b.hk = b.hk || 1.8; b.w = b.w || 0.04;
-			b.i = b.i || g.i.home; b.i0 = b.i; b.i1 = b.i1;
-			b.x = b.x || 0.35; b.y = b.y || 0.87; b.yin = b.y - 0.02;
+			b.hk = b.hk || g.op.build[b.type].hk || 1.8; b.w = b.w || g.op.build[b.type].w || 0.04;
+			b.i = b.i || g.i[g.op.build[b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
+			b.x = b.x || g.op.build[b.type].x || 0.35; b.y = b.y || g.op.build[b.type].y || 0.87; b.yin = b.y - 0.02;
 			b.z = b.z || 1;
 
 			b.a = function () {
@@ -332,6 +335,9 @@ var g = {
 					if (!b.docked () && !b.tabled ()) { g.a.p (b.a1); };
 					b.b ();
 				};
+			};
+			b.marked = function () {
+				return ((Math.abs (g.op.market.y - b.y) < 0.5 * g.op.market.h) && (Math.abs (g.op.market.x - b.x) < 0.5 * g.op.market.w));
 			};
 			b.move = function () {
 				if (b.drag > 0) { b.drag++;
@@ -515,6 +521,9 @@ var g = {
 			garden: { hk: 1, i: 'garden', t: 60000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
 			yard: { t: 1000 }
 		},
+		build: {
+			home: { a1: 'tock2', hk: 1.8, i: 'home', w: 0.05, y: 0.87 }
+		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
 		item: {
@@ -523,6 +532,7 @@ var g = {
 			item: { i: 'hammer' },
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', w: 0.025, y: 0.9 }
 		},
+		market: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.9, y: 0.8 },
 		money: 0,
 		season: 'summer',
 		table: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.1, y: 0.8 },
@@ -594,6 +604,7 @@ g.i.l = {
 	home: 'data/home.svg',
 	garden: 'data/garden.svg', garden_wheat: 'data/garden_wheat.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
+	market: 'data/market.svg',
 	snow: 'data/snow.png',
 	sun: 'data/sun.svg',
 	table: 'data/table.svg',
@@ -611,14 +622,15 @@ g.lvl.begin = function () {
 	g.w.t = 0;
 	g.g.d = { id: 'dock', z: 0 };
 	g.g.d = { i: g.i.table, id: 'table' };
+	g.g.d = { i: g.i.market, id: 'market' };
 
 	g.g.sun = {};
 	g.g.stat = { h: 0.075, i: g.i.yuan, id: 'money', t: 'money', wk: 2, x: 0.05, y: 0.05 };
 	g.g.stat = { h: 0.05, i: g.i.draw, id: 'date', t: 'fps', wk: 1, x: 0.9, y: 0.05 };
 
-	g.g.build = { a1: g.a.tock2, hk: 1.8, id: 'home', i: g.i.home, w: 0.05, x: 0.4, y: 0.87 };
-	g.g.item = { type: 'hammer', x: 0.3 };
-	g.g.area = { type: 'garden', x: 0.5 };
+	g.g.build = { type: 'home', x: 0.3 };
+	g.g.area = { type: 'garden', x: 0.4 };
+	g.g.item = { type: 'hammer', x: 0.5 };
 	g.g.item = { type: 'wheat', x: 0.6 };
 	g.g.item = { type: 'design_box', x: 0.7 };
 
