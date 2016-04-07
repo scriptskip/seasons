@@ -559,7 +559,7 @@ var g = {
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', price: 50, t: 1000, w: 0.05, y: 0.87 }
+			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', price: 20, t: 1000, w: 0.05, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
