@@ -212,7 +212,10 @@ var g = {
 						this.b ();
 						this.s ();
 						if (g.op.season != 'winter') {
-							g.g.item = { type: 'wheat' }; g.g.item = { type: 'wheat' };
+							if (this.seed) {
+								var item = g.op.area[this.type][this.seed].get;
+								g.g.item = { type: item }; g.g.item = { type: item };
+							};
 						};
 					};
 				};
@@ -227,9 +230,10 @@ var g = {
 								switch (o.type) {
 									case 'wheat':
 										g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
-										this.i = g.i[g.op.area[this.type].wheat.i];
-										this.i0 = g.i[g.op.area[this.type].wheat.i];
+										this.i = g.i[g.op.area[this.type][o.type].i];
+										this.i0 = g.i[g.op.area[this.type][o.type].i];
 										this.planted = true;
+										this.seed = o.type;
 										this.t = 0;
 										this.b ();
 										this.s ();
@@ -318,6 +322,7 @@ var g = {
 			b.hk = b.hk || g.op[b.tag][b.type].hk || 1.8; b.w = b.w || g.op[b.tag][b.type].w || 0.04;
 			b.i = b.i || g.i[g.op[b.tag][b.type].i] || g.i.home; b.i0 = b.i; b.i1 = b.i1;
 			b.price = b.price || g.op[b.tag][b.type].price || 0;
+			b.t = b.t || g.op[b.tag][b.type].t;
 			b.x = b.x || g.op[b.tag][b.type].x || 0.35; b.y = b.y || g.op[b.tag][b.type].y || 0.87; b.yin = b.y - 0.02;
 			b.z = b.z || 1;
 
@@ -373,7 +378,24 @@ var g = {
 			b.tabled = function () {
 				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
 			};
-			b.tick = b.tick || function () {};
+			b.tick = b.tick || function () {
+				if (this.worked) {
+					this.t += g.w.i;
+					if (this.t > a.t) {
+						this.i = g.i[g.op[this.tag][this.type].i];
+						this.i0 = g.i[g.op[this.tag][this.type].i];
+						this.maked = false;
+
+						this.b ();
+						this.s ();
+
+						if (this.maked) {
+								g.g.item = { type: g.op.area[this.type][this.seed].get }; g.g.item = { type: 'wheat' };
+						};
+					};
+				};
+			};
+
 			b.up = b.up || function () {};
 
 			b.b = function () {
@@ -533,17 +555,17 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', price: 10, t: 60000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
+			garden: { hk: 1, i: 'garden', price: 10, t: 6000, w: 0.07, wheat: { get: 'wheat', i: 'garden_wheat' }, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', hk: 1.8, i: 'home', price: 50, w: 0.05, y: 0.87 }
+			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', price: 50, t: 1000, w: 0.05, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
 		item: {
-			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', price: 10, w: 0.075, y: 0.86 },
-			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 5, w: 0.05, y: 0.9 },
+			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', price: 5, w: 0.075, y: 0.86 },
+			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 0, w: 0.05, y: 0.9 },
 			item: { i: 'hammer' },
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
 		},
