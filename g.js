@@ -533,22 +533,22 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', t: 60000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
+			garden: { hk: 1, i: 'garden', price: 10, t: 60000, w: 0.07, wheat: {i: 'garden_wheat'}, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', hk: 1.8, i: 'home', w: 0.05, y: 0.87 }
+			home: { a1: 'tock2', hk: 1.8, i: 'home', price: 50, w: 0.05, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
 		item: {
-			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', w: 0.075, y: 0.86 },
-			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', w: 0.05, y: 0.9 },
+			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', price: 10, w: 0.075, y: 0.86 },
+			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 5, w: 0.05, y: 0.9 },
 			item: { i: 'hammer' },
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
 		},
 		market: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.9, y: 0.8 },
-		money: 0,
+		money: 100,
 		season: 'summer',
 		table: { auto: false, hk: 1, items: {}, w: 0.2, x: 0.1, y: 0.8 },
 	},
