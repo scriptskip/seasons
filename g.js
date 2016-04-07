@@ -216,6 +216,8 @@ var g = {
 								var item = g.op.area[this.type][this.seed].get;
 								g.g.item = { type: item }; g.g.item = { type: item };
 							};
+						} else {
+							g.a.p (g.a.fail);
 						};
 					};
 				};
@@ -242,6 +244,7 @@ var g = {
 								};
 							} else {
 								g.w.wipe ({ id: o.id }); g.c.wipe ({ id: o.id });
+								g.a.p (g.a.fail);
 							};
 						};
 					};
@@ -570,7 +573,7 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', price: 10, t: 6000, w: 0.07, wheat: { get: 'wheat', i: 'garden_wheat' }, y: 0.87 },
+			garden: { hk: 1, i: 'garden', price: 10, t: 10000, w: 0.07, wheat: { get: 'wheat', i: 'garden_wheat' }, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		build: {
@@ -637,6 +640,7 @@ var g = {
 g.a.l = {
 	begin: 'data/begin.ogg',
 	dig: 'data/dig.ogg',
+	fail: 'data/fail.ogg',
 	fall: 'data/fall.ogg',
 	paper: 'data/paper.ogg', paper2: 'data/paper2.ogg',
 	sell: 'data/sell.ogg',
