@@ -393,7 +393,7 @@ var g = {
 				if (g.op[b.tag][b.type]) {
 					g.op[b.hint.id] = g.op[b.tag][b.type].price;
 					var o = g.c.hwxy (b);
-					g.g.stat = { h: 0.025, i: g.i.yuan, id: b.hint.id, t: b.hint.id, wk: 2, x: b.x, y: b.y + 0.5 * o.h };
+					g.g.stat = { h: 0.025, i: g.i.yuan, id: b.hint.id, t: b.hint.id, wk: 2, x: b.x, y: b.y + 0.5 * o.h, z: b.z + 1 };
 				};
 				g.c.d = true;
 			};
