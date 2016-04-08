@@ -470,9 +470,11 @@ var g = {
 			b.up = b.up || function () {};
 
 			b.b = function () {
+				b.hint.hide ();
 				g.g.b = { a: b.a, h: b.h, hk: b.hk, i: b.i, id: 'button' + b.id, in: b.in, out: b.out, w: b.w, wk: b.wk, x: b.x, y: b.y, z: b.z };
 			};
 			b.s = function () {
+				b.hint.hide ();
 				g.c.wipe ({ id: b.id });
 				var i = b.i1 || b.i;
 				var o = g.c.hwxy (b);
