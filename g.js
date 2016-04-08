@@ -393,7 +393,7 @@ var g = {
 				if (g.op[b.tag][b.type]) {
 					g.op[b.hint.id] = g.op[b.tag][b.type].price;
 					var o = g.c.hwxy (b);
-					g.g.stat = { h: 0.025, i: g.i.yuan, id: b.hint.id, t: b.hint.id, wk: 2, x: b.x, y: b.y + 0.5 * o.h, z: b.z + 1 };
+					g.g.stat = { h: 0.025, i: g.i.yuan, id: b.hint.id, t: b.hint.id, wk: 2, x: b.x, y: b.y + 0.6 * o.h, z: b.z + 1 };
 				};
 				g.c.d = true;
 			};
@@ -640,7 +640,7 @@ var g = {
 		fps: true,
 		item: {
 			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', price: 5, w: 0.075, y: 0.86 },
-			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 0, w: 0.05, y: 0.9 },
+			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 2, w: 0.05, y: 0.9 },
 			shovel: { hk: 3.5, i: 'shovel', price: 5, w: 0.025, y: 0.9 },
 			item: { i: 'hammer' },
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
