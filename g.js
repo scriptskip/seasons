@@ -226,6 +226,7 @@ var g = {
 			a.x = a.x || g.r (g.op.dock.x - 0.4 * g.op.dock.w, g.op.dock.x + 0.4 * g.op.dock.w); a.y = a.y || g.op.dock.y;
 
 			a.tick = function () {
+				this.tax ();
 				if (this.planted) {
 					this.t += g.w.i;
 					if (this.t > a.t) {
@@ -382,6 +383,11 @@ var g = {
 					if (!b.sell ()) { b.b (); };
 				};
 			};
+			b.hint = {};
+			b.hint.t = 0; b.hint.time = 1000;
+			b.hint.show = function () {
+
+			};
 			b.marked = function () {
 				return ((Math.abs (g.op.market.y - b.y) < 0.5 * g.op.market.h) && (Math.abs (g.op.market.x - b.x) < 0.5 * g.op.market.w));
 			};
@@ -425,7 +431,18 @@ var g = {
 			b.tabled = function () {
 				return ((Math.abs (g.op.table.y - b.y) < 0.5 * g.op.table.h) && (Math.abs (g.op.table.x - b.x) < 0.5 * g.op.table.w));
 			};
+			b.tax = function () {
+				var tax = g.op[b.tag][b.type].tax;
+				if (tax) {
+					tax.t = (tax.t) ? tax.t + g.w.i : 1;
+					if (tax.t > tax.time) {
+						tax.t = 0;
+						g.op.money -= tax.price;
+					};
+				};
+			};
 			b.tick = b.tick || function () {
+				b.tax ();
 				if (this.placed) {
 					if (this.worked) {
 						this.time += g.w.i;
@@ -598,11 +615,11 @@ var g = {
 		area: {
 			area: { i: 'garden', t: 1000 },
 			garbage: { t: 1000 },
-			garden: { hk: 1, i: 'garden', price: 10, t: 10000, w: 0.07, wheat: { get: 'wheat', i: 'garden_wheat' }, y: 0.87 },
+			garden: { hk: 1, i: 'garden', price: 10, t: 60000, tax: { price: 2, t: 0, time: 240000 }, w: 0.07, wheat: { get: 'wheat', i: 'garden_wheat' }, y: 0.87 },
 			yard: { t: 1000 }
 		},
 		build: {
-			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', power: 1, price: 20, t: 240000, w: 0.05, worked: true, y: 0.87 }
+			home: { a1: 'tock2', get: 'hammer', hk: 1.8, i: 'home', power: 3, price: 20, t: 240000, tax: { price: 1, t: 0,time: 240000 }, w: 0.05, worked: true, y: 0.87 }
 		},
 		dock: { auto: false, hk: 0.2, w: 0.55, x: 0.5, y: 0.9 },
 		fps: true,
