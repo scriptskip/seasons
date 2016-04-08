@@ -383,11 +383,21 @@ var g = {
 					if (!b.sell ()) { b.b (); };
 				};
 			};
-			b.hint = {};
-			b.hint.t = 0; b.hint.time = 1000;
-			b.hint.show = function () {
 
+			b.hint = {};
+			b.hint.hide = function () { g.c.wipe ({ id: b.hint.id }); };
+			b.hint.show = function () {
+				b.hint.id = 'hint' + b.id;
+				b.hint.t = 0;
+				g.c.wipe ({ id: b.hint.id });
+				if (g.op[b.tag][b.type]) {
+					g.op[b.hint.id] = g.op[b.tag][b.type].price;
+					var o = g.c.hwxy (b);
+					g.g.stat = { h: 0.025, i: g.i.yuan, id: b.hint.id, t: b.hint.id, wk: 2, x: b.x, y: b.y + 0.5 * o.h };
+				};
+				g.c.d = true;
 			};
+
 			b.marked = function () {
 				return ((Math.abs (g.op.market.y - b.y) < 0.5 * g.op.market.h) && (Math.abs (g.op.market.x - b.x) < 0.5 * g.op.market.w));
 			};
@@ -399,11 +409,13 @@ var g = {
 				};
 			};
 			b.in = function () {
+				b.hint.show ();
 				if (b.docked () || b.tabled ()) {
 					this.i = b.i1 || b.i; this.y -= 0.01;
 				};
 			};
 			b.out = function () {
+				b.hint.hide ();
 				if (b.docked () || b.tabled ()) {
 					this.i = b.i0; this.y += 0.01; g.a.p (b.a0);
 				};
@@ -470,6 +482,7 @@ var g = {
 			};
 			b.u = function () { switch (g.e.type) {
 				case 'click': b.drop (); break;
+				case 'mousedown': b.hint.hide (); break;
 				case 'mousemove': b.move (); break;
 				case 'mouseup': b.up (); break;
 				case 'tick': b.tick (); break;
@@ -626,6 +639,7 @@ var g = {
 		item: {
 			design_box: { a0: 'paper2', a1: 'paper', hk: 1, i: 'design_box', price: 5, w: 0.075, y: 0.86 },
 			hammer: { hk: 0.9, i: 'hammer', i1: 'hammer_up', price: 0, w: 0.05, y: 0.9 },
+			shovel: { hk: 3.5, i: 'shovel', price: 5, w: 0.025, y: 0.9 },
 			item: { i: 'hammer' },
 			wheat: { a0: 'wheat', hk: 2, i: 'wheat', price: 1, w: 0.025, y: 0.9 }
 		},
@@ -704,6 +718,7 @@ g.i.l = {
 	garden: 'data/garden.svg', garden_wheat: 'data/garden_wheat.svg',
 	grass: 'data/grass.png', grass_fall: 'data/grass_fall.png', grass_spring: 'data/grass_spring.png',
 	market: 'data/market.svg',
+	shovel: 'data/shovel.svg',
 	snow: 'data/snow.png',
 	sun: 'data/sun.svg',
 	table: 'data/table.svg',
@@ -730,6 +745,7 @@ g.lvl.begin = function () {
 	g.g.build = { type: 'home', x: 0.3 };
 	g.g.area = { type: 'garden', x: 0.4 };
 	g.g.item = { type: 'hammer', x: 0.5 };
+	g.g.item = { type: 'shovel', x: 0.55 };
 	g.g.item = { type: 'wheat', x: 0.6 };
 	g.g.item = { type: 'design_box', x: 0.7 };
 
